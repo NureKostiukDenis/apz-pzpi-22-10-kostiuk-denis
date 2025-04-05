@@ -1,0 +1,477 @@
+﻿Харківський національний університет радіоелектроніки
+
+Кафедра програмної інженерії
+
+
+
+
+
+
+Звіт
+З Практичної роботи № 1.
+«Патерн Наглядач (Observer)»
+
+з дисципліни «Архітектура програмного забезпечення» 
+
+
+
+
+
+Виконав:             
+
+Перевірив:
+ст. гр. ПЗПІ 22-10  
+
+асистент каф. ПІ
+Костюк Д.В.
+
+Сокорчук  І. П.
+
+
+
+
+
+Харків 2025
+1. Історія змін
+     
+Таблиця 1 – історія змін
+№
+Дата
+Версія звіту
+Опис змін та виправлень
+1
+31.03.2025
+0.1
+Створені слайди презентації доповіді 
+2
+02.04.2025
+0.1.1
+Створено розділи: «Завдання»,  «Опис виконаної роботи», «Висновки»
+3
+03.04.2025
+0.2
+Змінено слайди презентації: «Приклад реалізації патерну, частина 1», «Приклад реалізації патерну, частина 2»
+4
+04.04.2025
+0.3
+Додано вміст до «Додаток А», «Додаток Б», «Додаток В». Також було детально розписано пункт «Опис виконаної роботи»
+5
+04.04.2025
+0.4
+Додано відеозапис презентації
+6
+05.04.2025
+0.5
+Додано посилання на відео, та замінено деякі слайди презентації 
+
+
+2. Завдання
+
+Підготувати доповідь на тему «Патерн Наглядач (Observer)». 
+
+3. Опис виконаної роботи
+
+        У процесі вивчення патерну «Наглядач» було детально ознайомлено з його теоретичними основами за книгою «Банди чотирьох». Було розглянуто його структуру, принципи роботи та сферу застосування. Окрім цього, проаналізовано механізм взаємодії між спостерігачами (Observers) та об'єктом, за яким вони стежать (Observable), а також досліджено сильні та слабкі сторони підходу. 
+        Також було досліджено, що в Android вже існує вбудована підтримка патерну Observer, зокрема через LiveData та ViewModel, які дозволяють реалізувати реактивне оновлення UI при зміні стану даних. Це спрощує розробку та зменшує необхідність ручного керування спостерігачами.
+        
+4. Висновки
+
+     Було вивчено класичний підхід до реалізації патерну «Наглядач» за книгою «Банди чотирьох». Досліджено принцип його роботи, а саме механізм сповіщення підписників про зміни стану об’єкта.
+     Під час вивчення патерну було з’ясовано:
+        * Основна ідея патерну полягає у забезпеченні слабкого зв’язку між об’єктами, що дозволяє змінювати спостерігачів та джерело подій незалежно один від одного.
+        * Сфери застосування: підходить для реалізації підписки на події, обробки змін стану у складних системах та синхронізації об’єктів у багатокомпонентних програмах.
+        * Переваги: підвищення гнучкості та модульності коду, можливість розширення функціоналу без зміни основного об’єкта.
+        * Недоліки: потенційне зростання складності коду при великій кількості спостерігачів, а також ризик неконтрольованих оновлень, якщо неправильно керувати сповіщеннями.
+
+ДОДАТОК А
+Відеозапис доповіді на YouTube: https://youtu.be/tJ8kDsgztow
+00:12 Опис патерну Наглядач
+00:53 Структура патерну Наглядач: Суб'єкт, Спостерігач
+01:25 Принцип роботи патерну Наглядач, подієво-орієнтований принцип
+02:08 Розв'язання проблем, розв'язання проблеми зв'язності
+02:35 Переваги патерну Наглядач: Слабка зв'язність, гнучкість, масштабованість, автоматичне оновлення підписників 
+03:08 Недоліки патерну Наглядач: неконтрольований каскад оновлень, можливий витік пам'яті, немає гарантій порядку сповіщення 
+04:16 UML діаграма реалізації патерну
+05:34 Приклад реалізації патерну Наглядач за книгою "Банди чотирьох"
+06:15 Використання: Мобільна розробка, GUI фреймворки, бекенд технології, MVC
+07:02 Реалізація в ОС Андроїд: LiveData
+07:33 Приклад реалізації патерну на реальному проєкті, частина 1: класи ViewModel, LiveData, MutableLiveData
+07:33 Приклад реалізації патерну на реальному проєкті, частина 2: метод observe
+08:23 Висновок
+     
+
+ДОДАТОК Б
+
+
+Рисунок 1 – слайд №1
+
+
+Рисунок 2 – слайд №2
+
+
+
+Рисунок 3 – слайд №3
+
+
+Рисунок 4 – слайд №4
+
+
+Рисунок 5 – слайд №5
+
+
+Рисунок 6 – слайд №6
+
+
+Рисунок 7 – слайд №7
+
+
+Рисунок 8 – слайд №8
+
+
+Рисунок 9 – слайд №9
+
+
+Рисунок 10 – слайд №10
+
+
+Рисунок 11 – слайд №11
+
+
+Рисунок 12 – слайд №12
+
+
+Рисунок 13 – слайд №13
+
+
+Рисунок 14 – слайд №14
+
+
+
+
+ДОДАТОК В
+
+1 package com.project.libum.presentation.viewmodel
+2 
+3 import androidx.lifecycle.LiveData
+4 import androidx.lifecycle.MutableLiveData
+5 import androidx.lifecycle.ViewModel
+6 import com.project.libum.presentation.view.custom.BookView.BookDisplayStyle
+7 
+8 class HomeViewModel : ViewModel() {
+9 
+10     private val _bookStyle = MutableLiveData<BookDisplayStyle>()
+11     val bookStyle: LiveData<BookDisplayStyle> = _bookStyle
+12 
+13 
+14     private val _catalogState = MutableLiveData(BookCategories.All)
+15     val catalogState: LiveData<BookCategories> = _catalogState
+16 
+17     private val categories = BookCategories.entries
+18     private var currentCategoryIndex = 
+19 
+20     init {
+21         changeBookStyle(STANDARD_BOOK_STYLE)
+22     }
+23 
+24     fun changeBookStyle(bookStyle: BookDisplayStyle){
+25         _bookStyle.postValue(bookStyle)
+26     }
+27 
+28     fun getSurroundingCatalogStates(): Triple<BookCategories, BookCategories, BookCategories> {
+29         val current = categories[currentCategoryIndex]
+30         val previous = categories[if (currentCategoryIndex - 1 < ) categories.size - 1 else currentCategoryIndex - 1]
+31 
+32         val next = categories[(currentCategoryIndex + 1) % categories.size]
+33         return Triple(previous, current, next)
+34     }
+35 
+36     fun changeNextCatalogState() {
+37         currentCategoryIndex = (currentCategoryIndex + 1) % categories.size
+38         changeCatalogState(categories[currentCategoryIndex])
+39     }
+40 
+41     fun changePreviousCatalogState() {
+42         currentCategoryIndex = if (currentCategoryIndex - 1 < ) {
+43             categories.size - 1
+44         } else {
+45             currentCategoryIndex - 1
+46         }
+47         changeCatalogState(categories[currentCategoryIndex])
+48     }
+49 
+50     private fun changeCatalogState(bookCategory: BookCategories){
+51         _catalogState.postValue(bookCategory)
+52     }
+53 
+54     enum class BookCategories{
+55         All,
+56         Reading,
+57         Favorites,
+58         Complete,
+59         Archive
+60     }
+61 
+62     companion object{
+63         val STANDARD_BOOK_STYLE: BookDisplayStyle = BookDisplayStyle.WIDE
+64     }
+65 }
+
+
+1 package com.project.libum.presentation.view.fragment
+2 
+3 import android.annotation.SuppressLint
+4 import android.content.Context
+5 import android.content.Intent
+6 import android.os.Bundle
+7 import android.util.Log
+8 import android.view.GestureDetector
+9 import android.view.LayoutInflater
+10 import android.view.View
+11 import android.view.ViewGroup
+12 import android.view.ViewTreeObserver
+13 import androidx.core.content.res.ResourcesCompat
+14 import androidx.fragment.app.Fragment
+15 import androidx.fragment.app.activityViewModels
+16 import androidx.fragment.app.viewModels
+17 import androidx.lifecycle.lifecycleScope
+18 import androidx.recyclerview.widget.GridLayoutManager
+19 import androidx.recyclerview.widget.LinearLayoutManager
+20 import androidx.recyclerview.widget.RecyclerView
+21 import com.project.libum.R
+22 import com.project.libum.core.utils.SwipeGestureListener
+23 import com.project.libum.data.dto.Book
+24 import com.project.libum.databinding.FragmentHomeBinding
+25 import com.project.libum.presentation.adapter.BookAdapter
+26 import com.project.libum.presentation.adapter.GridSpacingItemDecoration
+27 import com.project.libum.presentation.adapter.SpacingItemDecoration
+28 import com.project.libum.presentation.view.activity.BookReaderActivity
+29 import com.project.libum.presentation.view.activity.BookReaderActivity.Companion.BOOK_DATA
+30 import com.project.libum.presentation.view.custom.BookView
+31 import com.project.libum.presentation.view.extension.showErrorMessage
+32 import com.project.libum.presentation.viewmodel.HomeViewModel
+33 import com.project.libum.presentation.viewmodel.MainActivityModel
+34 import dagger.hilt.android.AndroidEntryPoint
+35 import kotlinx.coroutines.launch
+36 import kotlin.math.max
+37 
+38 @AndroidEntryPoint
+39 class HomeFragment : Fragment() {
+40 
+41     private lateinit var binding: FragmentHomeBinding
+42     private val mainActivityModel: MainActivityModel by activityViewModels<MainActivityModel>()
+43     private val homeViewModel: HomeViewModel by viewModels()
+44     private lateinit var bookAdapter: BookAdapter
+45 
+46     private lateinit var gestureDetector: GestureDetector
+47 
+48     override fun onCreateView(
+49         inflater: LayoutInflater,
+50         container: ViewGroup?,
+51         savedInstanceState: Bundle?
+52     ): View {
+53         binding = FragmentHomeBinding.inflate(inflater, container, false)
+54         return binding.root
+55     }
+56 
+57     @SuppressLint("ClickableViewAccessibility")
+58     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+59         super.onViewCreated(view, savedInstanceState)
+60 
+61         val bookStyle = mainActivityModel.loadBookDisplayStyle(requireContext())
+62         homeViewModel.changeBookStyle(bookStyle)
+63 
+64         binding.actionField.listStyleChangerButton.setOnClickListener{
+65             changeBookStyleNext()
+66         }
+67 
+68         mainActivityModel.books.observe(viewLifecycleOwner) { books ->
+69             bookAdapter.setBooks(books)
+70         }
+71 
+72         homeViewModel.bookStyle.observe(viewLifecycleOwner){ displayStyle ->
+73             when(displayStyle){
+74                 BookView.BookDisplayStyle.SLIM -> setSlimBookAdapter()
+75                 BookView.BookDisplayStyle.WIDE -> setWideBookAdapter()
+76                 else -> setWideBookAdapter()
+77             }
+78             bookAdapter.setStyle(displayStyle)
+79             mainActivityModel.saveBookDisplayStyle(requireContext(), displayStyle)
+80             changeStateOfBookStyleButton()
+81         }
+82 
+83         homeViewModel.catalogState.observe(viewLifecycleOwner){
+84             val (previous, current, next) = homeViewModel.getSurroundingCatalogStates()
+85 
+86             binding.bookCategories.previousCatalogState.text = previous.name
+87             binding.bookCategories.currentCatalogState.text = current.name
+88             binding.bookCategories.nextCatalogState.text = next.name
+89 
+90             mainActivityModel.getBooksFromServer(it)
+91         }
+92 
+93         binding.bookCategories.nextCatalogState.setOnClickListener{
+94             homeViewModel.changeNextCatalogState()
+95         }
+96 
+97         binding.bookCategories.previousCatalogState.setOnClickListener{
+98             homeViewModel.changePreviousCatalogState()
+99         }
+100 
+101         gestureDetector = GestureDetector(context, SwipeGestureListener(
+102             onSwipeRight = {
+103                 homeViewModel.changeNextCatalogState()
+104                 Log.d("HomeFragment", "onViewCreated: swipe right")
+105                            },
+106             onSwipeLeft = {
+107                 homeViewModel.changePreviousCatalogState()
+108                 Log.d("HomeFragment", "onViewCreated: swipe left")
+109             }
+110             )
+111         )
+112 
+113         binding.catalogBackground.setOnTouchListener { _, event ->
+114             gestureDetector.onTouchEvent(event)
+115         }
+116 
+117         initializeBookAdapter()
+118         setupRecyclerViewPagination()
+119     }
+120 
+121     override fun onResume() {
+122         super.onResume()
+123         mainActivityModel.initBooksFromServer()
+124     }
+125 
+126     private fun initializeBookAdapter() {
+127         bookAdapter = BookAdapter()
+128 
+129         bookAdapter.setOnFavoriteClickListener { book, isFavorite ->
+130             lifecycleScope.launch {
+131                 val result = if (isFavorite) {
+132                     mainActivityModel.addBookToFavorites(book)
+133                 } else {
+134                     mainActivityModel.deleteBookToFavorites(book)
+135                 }
+136                 result.onSuccess {
+137                     bookAdapter.notifyItemChanged(mainActivityModel.books.value!!.indexOf(book))
+138                 }.onFailure {
+139                     showErrorMessage(context, "Failed to update favorite status for ${book.title}")
+140                 }
+141             }
+142         }
+143 
+144         bookAdapter.setOnBookClickView { book ->
+145             openBookReaderActivity(book)
+146         }
+147 
+148         binding.bookList.adapter = bookAdapter
+149     }
+150 
+151     private fun setupRecyclerViewPagination() {
+152         binding.bookList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+153             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+154                 super.onScrolled(recyclerView, dx, dy)
+155 
+156                 val layoutManager = recyclerView.layoutManager as? LinearLayoutManager
+157                     ?: return
+158 
+159                 val totalItemCount = layoutManager.itemCount
+160 
+161                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+162 
+163                 val visibleThreshold = 5
+164 
+165                 if (totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+166                     loadMoreBooks()
+167                 }
+168             }
+169         })
+170     }
+171 
+172     private fun openBookReaderActivity(book: Book){
+173         val intent = Intent(context, BookReaderActivity::class.java)
+174         intent.putExtra(BOOK_DATA, book)
+175         startActivity(intent)
+176     }
+177 
+178     private fun changeBookStyleNext(){
+179         val bookStyle = if ( homeViewModel.bookStyle.value == BookView.BookDisplayStyle.WIDE) {
+180             BookView.BookDisplayStyle.SLIM
+181         } else {
+182             BookView.BookDisplayStyle.WIDE
+183         }
+184 
+185         homeViewModel.changeBookStyle(bookStyle)
+186     }
+187 
+188     private fun changeStateOfBookStyleButton(){
+189         when(homeViewModel.bookStyle.value){
+190             BookView.BookDisplayStyle.WIDE -> setStyleButtonWideIcon()
+191             BookView.BookDisplayStyle.SLIM ->  setStyleButtonSlimIcon()
+192             null -> setStyleButtonWideIcon()
+193         }
+194     }
+195 
+196     private fun setStyleButtonWideIcon(){
+197         val drawable = ResourcesCompat.getDrawable(
+198             requireContext().resources,
+199             R.drawable.ic_standart_list_24dp,
+200             requireContext().theme
+201         )
+202 
+203         binding.actionField.listStyleChangerButton.setImageDrawable(drawable)
+204     }
+205 
+206     private fun setStyleButtonSlimIcon(){
+207         val drawable = ResourcesCompat.getDrawable(
+208             requireContext().resources,
+209             R.drawable.ic_block_list_24dp,
+210             requireContext().theme
+211         )
+212 
+213         binding.actionField.listStyleChangerButton.setImageDrawable(drawable)
+214     }
+215 
+216     private fun setWideBookAdapter(){
+217         clearItemDecorations(binding.bookList)
+218         binding.bookList.layoutManager = LinearLayoutManager(context)
+219 
+220         val spacingDecoration = SpacingItemDecoration(
+221             resources.getDimensionPixelSize(R.dimen.item_spacing),
+222             resources.getDimensionPixelSize(R.dimen.first_item_spacing),
+223             resources.getDimensionPixelSize(R.dimen.first_item_spacing)
+224         )
+225 
+226         binding.bookList.addItemDecoration(spacingDecoration)
+227     }
+228 
+229     private fun setSlimBookAdapter() {
+230         clearItemDecorations(binding.bookList)
+231         val gridLayoutManager = GridLayoutManager(context, getSpanCount())
+232         binding.bookList.layoutManager = gridLayoutManager
+233 
+234         val spacingDecoration = GridSpacingItemDecoration(
+235             resources.getDimensionPixelSize(R.dimen.item_spacing),
+236             resources.getDimensionPixelSize(R.dimen.first_item_spacing),
+237             resources.getDimensionPixelSize(R.dimen.first_item_spacing)
+238         )
+239         binding.bookList.addItemDecoration(spacingDecoration)
+240     }
+241 
+242     private fun getSpanCount(): Int{
+243         val totalWidth = resources.displayMetrics.widthPixels
+244         val itemWidth = resources.getDimensionPixelSize(R.dimen.slim_book_width)
+245          return  max(1, totalWidth / itemWidth)
+246     }
+247 
+248     private fun clearItemDecorations(recyclerView: RecyclerView) {
+249         while (recyclerView.itemDecorationCount > ) {
+250             recyclerView.removeItemDecorationAt()
+251         }
+252     }
+253 
+254     private fun loadMoreBooks() {
+255         mainActivityModel.loadNextPage(homeViewModel.catalogState.value ?: HomeViewModel.BookCategories.All)
+256     }
+257 
+258 }
