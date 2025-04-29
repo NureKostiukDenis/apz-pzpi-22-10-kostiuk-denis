@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment"
+    android:orientation="vertical"
+    >
+
+    <com.anware.ui.home.WarehouseMapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+    </com.anware.ui.home.WarehouseMapView>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        >
+    </com.google.android.material.divider.MaterialDivider>
+
+    <TextView
+        android:id="@+id/selected_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected section None"
+        >
+    </TextView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleGroupDetailMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        app:singleSelection="true"
+        app:checkedButton="@id/buttonShowItems"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonShowItems"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/items" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonShowGates"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gates" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        >
+    </com.google.android.material.divider.MaterialDivider>
+
+    <ViewFlipper
+        android:id="@+id/detailsViewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:minHeight="100dp"
+        android:animateFirstView="false"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+        android:layout_weight="0.8"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/items_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@android:layout/simple_list_item_1"
+            tools:itemCount="3"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/gates_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@android:layout/simple_list_item_1"
+            tools:itemCount="2"/>
+    </ViewFlipper>
+
+</LinearLayout>
