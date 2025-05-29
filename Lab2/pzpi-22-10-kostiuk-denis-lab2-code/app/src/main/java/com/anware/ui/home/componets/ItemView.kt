@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import com.anware.data.api.map.Item
+import com.anware.data.network.api.map.Item
 import com.anware.databinding.ProductViewBinding
 
 class ItemView: RelativeLayout {

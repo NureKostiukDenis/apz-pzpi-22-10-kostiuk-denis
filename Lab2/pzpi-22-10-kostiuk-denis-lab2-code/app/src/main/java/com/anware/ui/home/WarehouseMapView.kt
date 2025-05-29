@@ -9,8 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.anware.R
-import com.anware.data.api.map.WarehouseSection
-import kotlin.math.E
+import com.anware.data.network.api.map.WarehouseSection
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.max
@@ -120,34 +119,32 @@ class WarehouseMapView @JvmOverloads constructor(
         val availableWidth = viewWidth.toFloat() - paddingLeft - paddingRight
         val availableHeight = viewHeight.toFloat() - paddingTop - paddingBottom
 
-        val maxColsByWidth = floor((availableWidth + minHorizontalSpacing) / (desiredSectionWidth + minHorizontalSpacing)).toInt()
-        val cols = max(1, maxColsByWidth)
+        val maxCols = floor((availableWidth + minHorizontalSpacing) / (desiredSectionWidth + minHorizontalSpacing)).toInt()
+            .coerceAtLeast(1)
 
-        val rows = ceil(warehouseSectionsData.size.toFloat() / cols.toFloat()).toInt()
-        if (rows == 0) {
-            invalidate()
-            return
-        }
+        val rows = ceil(warehouseSectionsData.size.toFloat() / maxCols).toInt()
 
-        val totalSectionsWidth = cols * desiredSectionWidth
-        val totalHorizontalPadding = availableWidth - totalSectionsWidth
+        val actualSectionWidth = max(
+            (availableWidth - minHorizontalSpacing * (maxCols + 1)) / maxCols,
+            100f
+        )
+        val actualSectionHeight = max(
+            (availableHeight - minVerticalSpacing * (rows + 1)) / rows,
+            150f
+        )
 
-        val actualHorizontalSpacing = if (cols > 0) totalHorizontalPadding / (cols + 1) else 0f
-
-        val totalSectionsHeight = rows * desiredSectionHeight
-        val totalVerticalPadding = availableHeight - totalSectionsHeight
-
-        val actualVerticalSpacing = if (rows > 0) totalVerticalPadding / (rows + 1) else 0f
+        val horizontalSpacing = (availableWidth - (maxCols * actualSectionWidth)) / (maxCols + 1)
+        val verticalSpacing = (availableHeight - (rows * actualSectionHeight)) / (rows + 1)
 
         warehouseSectionsData.forEachIndexed { index, section ->
-            val currentRow = index / cols
-            val currentCol = index % cols
+            val row = index / maxCols
+            val col = index % maxCols
 
-            val left = paddingLeft + actualHorizontalSpacing + currentCol * (desiredSectionWidth + actualHorizontalSpacing)
-            val top = paddingTop + actualVerticalSpacing + currentRow * (desiredSectionHeight + actualVerticalSpacing)
+            val left = paddingLeft + horizontalSpacing * (col + 1) + actualSectionWidth * col
+            val top = paddingTop + verticalSpacing * (row + 1) + actualSectionHeight * row
+            val right = left + actualSectionWidth
+            val bottom = top + actualSectionHeight
 
-            val right = left + desiredSectionWidth
-            val bottom = top + desiredSectionHeight
             val bounds = RectF(left, top, right, bottom)
 
             sectionVisuals.add(SectionVisual(section, bounds))
@@ -161,39 +158,20 @@ class WarehouseMapView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         sectionVisuals.forEach { visual ->
-
             val isSelected = visual.section.sectionName == visuallySelectedSectionName
 
-            canvas.drawRect(visual.bounds, if (isSelected) selectedSectionPaint else sectionPaint)
-            canvas.drawRect(visual.bounds, borderPaint)
+            val radius = 20f
+            canvas.drawRoundRect(visual.bounds, radius, radius, if (isSelected) selectedSectionPaint else sectionPaint)
+
+            canvas.drawRoundRect(visual.bounds, radius, radius, borderPaint)
 
             val sectionTextX = visual.bounds.centerX()
-            val sectionTextY = visual.bounds.centerY() - ((textPaint.descent() + textPaint.ascent()) / 2) - gateSize
+            val sectionTextY = visual.bounds.centerY() - ((textPaint.descent() + textPaint.ascent()) / 2)
             canvas.drawText(visual.section.sectionName, sectionTextX, sectionTextY, textPaint)
-
-            val gates = visual.section.gatesList
-
-            if (gates.isNotEmpty()) {
-                val gateY = visual.bounds.bottom - gateBottomMargin - gateSize
-                var currentGateX = visual.bounds.left + gatePadding
-
-                gates.forEachIndexed { index, gate ->
-                    if (currentGateX + gateSize <= visual.bounds.right - gatePadding) {
-                        val gateRect = RectF(currentGateX, gateY, currentGateX + gateSize, gateY + gateSize)
-                        canvas.drawRect(gateRect, gatePaint)
-
-                        val gateTextX = gateRect.centerX()
-                        val gateTextY = gateRect.centerY() - ((gateTextPaint.descent() + gateTextPaint.ascent()) / 2)
-                        canvas.drawText(gate.code, gateTextX, gateTextY, gateTextPaint)
-
-                        currentGateX += gateSize + gatePadding
-                    } else {
-                        return@forEachIndexed
-                    }
-                }
-            }
         }
     }
+
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {

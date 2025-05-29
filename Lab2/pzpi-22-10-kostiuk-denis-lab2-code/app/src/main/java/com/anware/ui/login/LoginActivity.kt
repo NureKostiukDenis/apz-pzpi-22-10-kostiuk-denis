@@ -2,6 +2,7 @@ package com.anware.ui.login
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import androidx.lifecycle.Observer
 import android.os.Bundle
 import androidx.annotation.StringRes
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.anware.MainActivity
 import com.anware.R
@@ -27,7 +29,32 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        var keepSplashVisible = true
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { keepSplashVisible }
+
         loginViewModel.verifyToken()
+
+        loginViewModel.loginResult.observe(this) { loginResultData ->
+            keepSplashVisible = false
+
+            if (!loginResultData.success) {
+                showLoginScreen()
+                showLoginFailed(R.string.errorString)
+            } else {
+                navigateToMain()
+            }
+        }
+    }
+
+    private fun showLoginScreen() {
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupLoginUI()
+    }
+
+    private fun setupLoginUI() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -77,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun startLogin(){
         binding.apply {
             loading.visibility = View.VISIBLE
@@ -93,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
         val displayName = model?.name
         Toast.makeText(
             applicationContext,
-            "$welcome $displayName",
+            "$welcome",
             Toast.LENGTH_LONG
         ).show()
         navigateToMain()

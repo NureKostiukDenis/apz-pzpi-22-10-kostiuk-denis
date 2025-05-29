@@ -1,16 +1,24 @@
 package com.anware.ui.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.anware.data.api.map.WarehouseSection
+import com.anware.data.network.api.map.WarehouseSection
+import com.anware.data.network.apiv2.gate.GateResponse
+import com.anware.data.network.apiv2.item.ItemResponse
+import com.anware.repository.GateRepository
+import com.anware.repository.ItemRepository
 import com.anware.repository.MapRepository
 import kotlinx.coroutines.launch
 
 data class FragmentState(
     val selectedSection: WarehouseSection? = null,
-    val detailMode: SectionDetailMode = SectionDetailMode.ITEMS
+    val detailMode: SectionDetailMode = SectionDetailMode.ITEMS,
+    val itemDetails: ItemResponse? = null,
+    val gateDetails: GateResponse? = null,
 )
 
 enum class SectionDetailMode {
@@ -18,7 +26,9 @@ enum class SectionDetailMode {
 }
 
 class HomeViewModel(
-    val mapRepository: MapRepository
+    val mapRepository: MapRepository,
+    val itemRepository: ItemRepository,
+    val gateRepository: GateRepository
 ): ViewModel() {
 
 
@@ -32,7 +42,6 @@ class HomeViewModel(
         val currentState = _state.value ?: FragmentState()
         _state.value = currentState.copy(
             selectedSection = section,
-            detailMode = SectionDetailMode.ITEMS
         )
     }
 
@@ -48,4 +57,34 @@ class HomeViewModel(
             _mapData.value = mapRepository.getMap()
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getItemDetails(id: Int){
+        viewModelScope.launch {
+            _state.value = _state.value?.copy(
+                itemDetails = itemRepository.getOne(id)
+            )
+        }
+    }
+
+    fun getGateDetails(id: Int){
+        viewModelScope.launch {
+            _state.value = _state.value?.copy(
+                gateDetails = gateRepository.getOne(id)
+            )
+        }
+    }
+
+    fun clearGateDetails(){
+        _state.value = _state.value?.copy(
+            gateDetails = null
+        )
+    }
+
+    fun clearItemDetails(){
+        _state.value = _state.value?.copy(
+            itemDetails = null
+        )
+    }
+
 }

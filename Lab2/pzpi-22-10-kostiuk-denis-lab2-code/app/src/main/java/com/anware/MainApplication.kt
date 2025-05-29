@@ -1,7 +1,7 @@
 package com.anware
 
 import android.app.Application
-import com.anware.di.apiModule
+import com.anware.di.networkModule
 import com.anware.di.userModule
 import com.anware.di.viewModelsModule
 import org.koin.android.ext.koin.androidContext
@@ -15,7 +15,7 @@ class MainApplication: Application() {
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
-            modules( apiModule, userModule, viewModelsModule)
+            modules(networkModule, userModule, viewModelsModule)
         }
     }
 

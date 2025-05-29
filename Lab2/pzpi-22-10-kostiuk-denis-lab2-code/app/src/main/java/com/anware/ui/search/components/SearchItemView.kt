@@ -4,8 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import com.anware.data.api.map.Item
-import com.anware.data.api.search.SearchItem
+import com.anware.data.network.api.search.SearchItem
 import com.anware.databinding.SearchItemViewBinding
 
 class SearchItemView: RelativeLayout {

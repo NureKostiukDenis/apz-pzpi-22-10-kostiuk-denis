@@ -2,13 +2,15 @@ package com.anware.ui.home.componets
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.anware.data.api.map.Item
+import com.anware.data.network.api.map.Item
 
 class ItemAdapter: RecyclerView.Adapter<ItemAdapter.ItemViewHolder>()  {
 
     class ItemViewHolder(val item: ItemView) : RecyclerView.ViewHolder(item)
 
     private var items: List<Item> = emptyList()
+
+    private var listener: ((id: Int) -> Unit)? = null
 
     fun setData(data: List<Item>){
         items = data
@@ -33,6 +35,15 @@ class ItemAdapter: RecyclerView.Adapter<ItemAdapter.ItemViewHolder>()  {
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val post = items[position]
         holder.item.setData(post)
+
+
+        holder.item.setOnClickListener {
+            listener?.invoke(post.id)
+        }
+    }
+
+    fun setOnItemClickListener(listener: (id: Int) -> Unit) {
+        this.listener = listener
     }
 
 }

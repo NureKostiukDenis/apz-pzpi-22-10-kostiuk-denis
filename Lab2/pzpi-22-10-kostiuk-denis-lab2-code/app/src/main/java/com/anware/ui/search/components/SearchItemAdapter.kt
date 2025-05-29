@@ -2,7 +2,7 @@ package com.anware.ui.search.components
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.anware.data.api.search.SearchItem
+import com.anware.data.network.api.search.SearchItem
 
 
 class SearchItemAdapter: RecyclerView.Adapter<SearchItemAdapter.SearchItemViewHolder>() {
@@ -10,6 +10,9 @@ class SearchItemAdapter: RecyclerView.Adapter<SearchItemAdapter.SearchItemViewHo
     class SearchItemViewHolder(val searchItemView: SearchItemView): RecyclerView.ViewHolder(searchItemView)
 
     private var items: List<SearchItem> = emptyList()
+
+
+    private var listener: ((id: Int) -> Unit)? = null
 
     fun setData(data: List<SearchItem>){
         items = data
@@ -31,9 +34,18 @@ class SearchItemAdapter: RecyclerView.Adapter<SearchItemAdapter.SearchItemViewHo
         return items.size
     }
 
+    fun setOnItemClickListener(listener: (id: Int) -> Unit) {
+        this.listener = listener
+    }
+
+
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
         val searchItem = items[position]
         holder.searchItemView.setData(searchItem)
+
+        holder.searchItemView.setOnClickListener {
+            listener?.invoke(searchItem.id!!)
+        }
     }
 
 

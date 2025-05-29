@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.anware.data.local.UserLocalDataDAO
 import com.anware.repository.UserRepository
 import kotlinx.coroutines.launch
 
 
 class LoginViewModel(
-    private val loginRepository: UserRepository
+    private val loginRepository: UserRepository,
+    private val userLocalDataDAO: UserLocalDataDAO
 ) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
@@ -20,7 +22,9 @@ class LoginViewModel(
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
+
             val result = loginRepository.login(username.trim(), password.trim())
+
             if (result.isSuccess){
                 result.getOrNull()?.let {
                     _loginResult.value =
@@ -34,11 +38,21 @@ class LoginViewModel(
         }
     }
 
+    suspend fun autoLogin(): Boolean {
+        val email = userLocalDataDAO.getUserEmail()
+        val password = userLocalDataDAO.getUserPassword()
+
+        return if (!email.isNullOrBlank() && !password.isNullOrBlank()) {
+            val result = loginRepository.login(email, password)
+            result.isSuccess
+        } else {
+            false
+        }
+    }
+
     fun verifyToken(){
         viewModelScope.launch {
             val result = loginRepository.isTokenValid()
-
-
             if (result.isSuccess){
                 _loginResult.value =
                     LoginResult(success = true)

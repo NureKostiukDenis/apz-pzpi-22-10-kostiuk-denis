@@ -1,8 +1,8 @@
 package com.anware.repository
 
 import android.util.Log
-import com.anware.data.api.map.MapServices
-import com.anware.data.api.map.WarehouseSection
+import com.anware.data.network.api.map.MapServices
+import com.anware.data.network.api.map.WarehouseSection
 import com.anware.data.local.UserLocalDataDAO
 
 class MapRepository(

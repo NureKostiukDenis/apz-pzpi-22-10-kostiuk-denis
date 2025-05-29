@@ -1,35 +1,50 @@
 package com.anware.repository
 
-import com.anware.data.api.auth.AuthResponse
-import com.anware.data.api.auth.UserRequest
-import com.anware.data.api.auth.UserServices
+import android.util.Log
+import com.anware.data.network.api.auth.AuthResponse
+import com.anware.data.network.api.auth.UserInfo
+import com.anware.data.network.api.auth.UserRequest
+import com.anware.data.network.api.auth.UserServices
 import com.anware.data.local.UserLocalDataDAO
 
 class UserRepository (
     private val userService: UserServices,
     private val userLocalDataDAO: UserLocalDataDAO
 ) {
-    suspend fun login(email: String, password: String): Result<AuthResponse>{
+
+    suspend fun login(email: String, password: String): Result<AuthResponse> {
         return try {
-            val result = userService.logIn(UserRequest(
-                email,
-                password
-            ))
+            val result = userService.logIn(UserRequest(email, password))
 
-            userLocalDataDAO.setUserToken(result.token)
+            if (result.isSuccessful) {
+                val authResponse = result.body()
 
-            val apiKey = getApiKey(result.token)
+                if (authResponse != null) {
+                    userLocalDataDAO.setUserToken(authResponse.token)
+                    userLocalDataDAO.setRefreshToken(authResponse.refreshToken)
+                    userLocalDataDAO.setUserPassword(password)
+                    userLocalDataDAO.setUserEmail(email)
 
-            if (apiKey.isSuccess){
-                userLocalDataDAO.setApiKey(apiKey.getOrNull()!!)
-            }else{
-                Result.failure<Exception>(Exception("User don`t attached to warehouse"))
+                    val apiKey = getApiKey(authResponse.token)
+                    if (apiKey.isSuccess) {
+                        userLocalDataDAO.setApiKey(apiKey.getOrNull()!!)
+                    } else {
+                        return Result.failure(Exception("User is not attached to warehouse"))
+                    }
+
+                    Result.success(authResponse)
+                } else {
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Request was not successful: ${result.code()}"))
             }
-            Result.success(result)
-        }catch (e: Exception){
+        } catch (e: Exception) {
+            Log.d("Login", "login failed: ${e.message}")
             Result.failure(e)
         }
     }
+
 
     suspend fun isTokenValid(): Result<Int>{
         try {
@@ -59,6 +74,24 @@ class UserRepository (
         return try {
             Result.success(userService.getApiKey(bearerToken(userToken)))
         }catch (e: Exception){
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getInfo(): Result<UserInfo>{
+        return try {
+            val userToken = userLocalDataDAO.getUserToken() ?: throw Exception("Saved token does not exist.")
+            val result = userService.info(bearerToken(userToken))
+
+            if (result.isSuccessful){
+                Result.failure<Exception>(Exception("User don`t attached to warehouse"))
+            }
+
+            userLocalDataDAO.setUserInfo(result.body()!!)
+
+            return Result.success(result.body()!!)
+        }catch (e: Exception){
+            Log.d("Info", "info: ${e}")
             Result.failure(e)
         }
     }

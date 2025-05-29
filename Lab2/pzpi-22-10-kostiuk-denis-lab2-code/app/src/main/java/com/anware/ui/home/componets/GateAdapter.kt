@@ -2,14 +2,15 @@ package com.anware.ui.home.componets
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.anware.data.api.map.Gate
-import com.anware.data.api.map.Item
+import com.anware.data.network.api.map.Gate
 
 class GateAdapter: RecyclerView.Adapter<GateAdapter.GateViewHolder>()  {
 
     class GateViewHolder(val item: GateView) : RecyclerView.ViewHolder(item)
 
     private var items: List<Gate> = emptyList()
+
+    private var listener: ((id: Int) -> Unit)? = null
 
     fun setData(data: List<Gate>){
         items = data
@@ -32,8 +33,15 @@ class GateAdapter: RecyclerView.Adapter<GateAdapter.GateViewHolder>()  {
     }
 
     override fun onBindViewHolder(holder: GateViewHolder, position: Int) {
-        val post = items[position]
-        holder.item.setData(post)
+        val gate = items[position]
+        holder.item.setData(gate)
+
+        holder.item.setOnClickListener {
+            listener?.invoke(gate.id)
+        }
     }
 
+    fun setOnGateClickListener(listener: (id: Int) -> Unit) {
+        this.listener = listener
+    }
 }

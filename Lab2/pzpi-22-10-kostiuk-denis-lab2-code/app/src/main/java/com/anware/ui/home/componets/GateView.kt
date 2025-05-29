@@ -4,17 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import com.anware.data.api.map.Gate
-import com.anware.data.api.map.Item
+import com.anware.data.network.api.map.Gate
 import com.anware.databinding.GateViewBinding
-import com.anware.databinding.ProductViewBinding
 
 class GateView: RelativeLayout {
 
     private var _binding: GateViewBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var gateData: Gate
+    public lateinit var gateData: Gate
+        private set
 
     constructor(context: Context) : super(context) {
         init(null, 0)
