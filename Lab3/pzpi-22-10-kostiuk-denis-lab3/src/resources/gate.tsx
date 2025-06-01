@@ -1,4 +1,3 @@
-// src/resources/gateComponents.tsx (или другое имя файла)
 
 import {
     List,
@@ -30,12 +29,12 @@ export interface GateRecord {
 
 
 export const GateList: React.FC<ListProps> = (props) => (
-    <List {...props} title="Ворота склада">
+    <List {...props} title="resources.gates.name">
         <Datagrid>
-            <TextField source="id" label="ID" />
-            <TextField source="code" label="Код ворот" />
-            <TextField source="type" label="Тип ворот" />
-            <TextField source="sectionId" label="Секція" />
+            <TextField source="id" label="resources.gate.fields.id" />
+            <TextField source="code" label="resources.gate.fields.code" />
+            <TextField source="type" label="resources.gate.fields.type" />
+            <TextField source="sectionId" label="resources.gate.fields.sectionId" />
             <EditButton />
             <DeleteButton />
         </Datagrid>
@@ -43,56 +42,47 @@ export const GateList: React.FC<ListProps> = (props) => (
 );
 
 export const GateEdit: React.FC<EditProps> = (props) => (
-    <Edit {...props} title="Редактирование ворот">
+    <Edit {...props} title="Редагування воріт">
         <SimpleForm>
-            <TextInput source="id" label="ID" disabled />
+            <TextInput source="id" label="resources.gate.fields.id" disabled />
             <TextInput
                 source="code"
-                label="Код ворот"
-                validate={required("Код обязателен")}
+                label="resources.gate.fields.code"
+                validate={required("resources.gate.fields.code.required")}
             />
             <TextInput
                 source="type"
-                label="Тип ворот"
-                validate={required("Тип обов'язковий")}
+                label="resources.gate.fields.type"
+                validate={required("resources.gate.fields.type.required")}
             />
         </SimpleForm>
     </Edit>
 );
 
 export const GateCreate: React.FC<CreateProps> = (props) => (
-    <Create {...props} title="Создание новых ворот">
+    <Create {...props} title="resources.gate.name">
         <SimpleForm>
             <TextInput
                 source="code"
-                label="Код ворот"
-                validate={required("Код обов'язковий")}
+                label="resources.gate.fields.code"
+                validate={required("resources.gates.fields.code.required")}
             />
             <TextInput
                 source="type"
-                label="Тип ворот"
-                validate={required("Тип обов'язковий")}
+                label="resources.gate.fields.type"
+                validate={required("resources.gate.fields.type.required")}
             />
         </SimpleForm>
     </Create>
 );
 
 export const GateShow: React.FC<ShowProps> = (props) => (
-    <Show {...props} title="Просмотр ворот">
+    <Show {...props} title="resources.gates.name">
         <SimpleShowLayout>
-            <TextField source="id" label="ID" />
-            <TextField source="code" label="Код ворот" />
-            <TextField source="type" label="Тип ворот" />
-            <TextField source="sectionId" label="Секція" />
+            <TextField source="id" label="resources.gate.fields.id" />
+            <TextField source="code" label="resources.gate.fields.code" />
+            <TextField source="type" label="resources.gate.fields.type" />
+            <TextField source="sectionId" label="resources.gate.fields.sectionId" />
         </SimpleShowLayout>
     </Show>
 );
-
-export const gateResource: ResourceProps = {
-    name: "gates",
-    list: GateList,
-    edit: GateEdit,
-    create: GateCreate,
-    show: GateShow,
-    options: { label: "Ворота" },
-};

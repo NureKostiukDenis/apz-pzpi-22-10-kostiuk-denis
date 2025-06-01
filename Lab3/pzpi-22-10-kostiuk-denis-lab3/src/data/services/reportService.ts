@@ -79,17 +79,21 @@ export const reportService = {
     getItemMovementHistory: async (
         body: ItemMovementHistoryRequest
     ): Promise<ItemMovementHistoryResponse> => {
+        const headers = await getAdminHeaders()
+
         return await apiRequest(`${BASE_URL}/item-movement-history`, {
             method: 'POST',
-            headers: getAdminHeaders(),
+            headers: headers,
             body: JSON.stringify(body),
         });
     },
 
     getSectionLoad: async (): Promise<SectionLoadResponse> => {
+        const headers = await getAdminHeaders()
+
         return await apiRequest(`${BASE_URL}/section-load`, {
             method: 'GET',
-            headers: getAdminHeaders(),
+            headers: headers,
         });
     },
 
@@ -97,19 +101,23 @@ export const reportService = {
         days: number,
         size: number
     ): Promise<ItemsWithoutMovementResponse> => {
+        const headers = await getAdminHeaders()
+
         const url = `${BASE_URL}/items-without-movement?days=${days}&size=${size}`;
         return await apiRequest(url, {
             method: 'GET',
-            headers: getAdminHeaders(),
+            headers: headers,
         });
     },
 
     getPeakActivityHours: async (
         body: PeakActivityHoursRequest
     ): Promise<PeakActivityResponse> => {
+        const headers = await getAdminHeaders()
+
         return await apiRequest(`${BASE_URL}/peak-activity-hours`, {
             method: 'POST',
-            headers: getAdminHeaders(),
+            headers: headers,
             body: JSON.stringify(body),
         });
     }

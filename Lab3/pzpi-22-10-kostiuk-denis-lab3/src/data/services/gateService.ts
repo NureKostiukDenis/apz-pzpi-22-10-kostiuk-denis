@@ -13,18 +13,20 @@ export type DetachGateRequest = {
 export const gateService = {
 
     attachToSection: async (gateId: number, body: AttachGateRequest) => {
+        const headers = await getAdminHeaders();
         await apiRequest<void>(`${API_URL}/v2/gate/${gateId}/attach`, {
             method: 'POST',
             body: JSON.stringify(body),
-            headers: getAdminHeaders()
+            headers: headers
         });
     },
 
     detachFromSection: async (gateId: number, body: DetachGateRequest) => {
+        const headers = await getAdminHeaders();
         await apiRequest<void>(`${API_URL}/v2/gate/${gateId}/detach`, {
             method: 'POST',
             body: JSON.stringify(body),
-            headers: getAdminHeaders()
+            headers: headers
         });
     },
 };

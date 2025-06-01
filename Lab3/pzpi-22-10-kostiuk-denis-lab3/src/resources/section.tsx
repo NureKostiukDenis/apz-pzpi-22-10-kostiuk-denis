@@ -1,4 +1,4 @@
-// src/resources/sections.tsx (или gate.tsx, если это ваше соглашение)
+// src/resources/sections.tsx (або інша назва файлу, як домовлено)
 
 import * as React from "react";
 import {
@@ -27,11 +27,11 @@ export interface SectionRecord {
 }
 
 export const SectionList: React.FC<ListProps> = (props) => (
-    <List {...props} title="Секции склада">
+    <List {...props} title="resources.section.name">
         <Datagrid>
-            <TextField source="id" label="ID" />
-            <TextField source="name" label="Название секции" />
-            <NumberField source="capacity" label="Вместимость" />
+            <TextField source="id" label="resources.section.fields.id" />
+            <TextField source="name" label="resources.section.fields.name" />
+            <NumberField source="capacity" label="resources.section.fields.capacity" />
             <EditButton />
             <DeleteButton />
         </Datagrid>
@@ -39,46 +39,52 @@ export const SectionList: React.FC<ListProps> = (props) => (
 );
 
 export const SectionEdit: React.FC<EditProps> = (props) => (
-    <Edit {...props} title="Редактирование секции">
+    <Edit {...props} title="Редагування секції">
         <SimpleForm>
-            <TextInput source="id" label="ID" disabled />
+            <TextInput source="id" label="resources.section.fields.id" disabled />
             <TextInput
                 source="name"
-                label="Название секции"
-                validate={required("Название обязательно")}
+                label="resources.section.fields.name"
+                validate={required("resources.section.fields.name_required")}
             />
             <NumberInput
                 source="capacity"
-                label="Вместимость"
-                validate={[required("Вместимость обязательна"), minValue(1, "Вместимость должна быть больше 0")]}
+                label="resources.section.fields.capacity"
+                validate={[
+                    required("resources.section.fields.capacity_required"),
+                    minValue(1, "resources.section.fields.capacity_min")
+                ]}
             />
         </SimpleForm>
     </Edit>
 );
 
 export const SectionCreate: React.FC<CreateProps> = (props) => (
-    <Create {...props} title="Создание новой секции">
+    <Create {...props} title="resources.section.name">
         <SimpleForm>
             <TextInput
                 source="name"
-                label="Название секции"
-                validate={required("Название обязательно")}
+                label="resources.section.fields.name"
+                validate={required("resources.section.fields.name_required")}
             />
             <NumberInput
                 source="capacity"
-                label="Вместимость"
-                validate={[required("Вместимость обязательна"), minValue(1, "Вместимость должна быть больше 0")]}
+                label="resources.section.fields.capacity"
+                validate={[
+                    required("resources.section.fields.capacity_required"),
+                    minValue(1, "resources.section.fields.capacity_min")
+                ]}
             />
         </SimpleForm>
     </Create>
 );
 
 export const SectionShow: React.FC<ShowProps> = (props) => (
-    <Show {...props} title="Просмотр секции">
+    <Show {...props} title="resources.section.name">
         <SimpleShowLayout>
-            <TextField source="id" label="ID" />
-            <TextField source="name" label="Название секции" />
-            <NumberField source="capacity" label="Вместимость" />
+            <TextField source="id" label="resources.section.fields.id" />
+            <TextField source="name" label="resources.section.fields.name" />
+            <NumberField source="capacity" label="resources.section.fields.capacity" />
         </SimpleShowLayout>
     </Show>
 );
@@ -89,5 +95,5 @@ export const sectionResource: ResourceProps = {
     edit: SectionEdit,
     create: SectionCreate,
     show: SectionShow,
-    options: { label: "Секції" },
+    options: { label: "resources.section.name" },
 };

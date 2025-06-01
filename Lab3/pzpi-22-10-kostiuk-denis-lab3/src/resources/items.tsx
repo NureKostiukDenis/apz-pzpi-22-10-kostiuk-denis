@@ -59,11 +59,11 @@ export const ItemList = () => (
         filterDefaultValues={[]}
         sort={{ field: 'id', order: 'ASC' }}
     >
-        <Datagrid rowClick="edit">
+        <Datagrid>
             <TextField source="id" label="ID" />
-            <TextField source="name" label="Название" />
-            <TextField source="rfidTag" label="RFID тэг" />
-            <TextField source="sectionName" label="Секция" />
+            <TextField source="name" label="resources.item.fields.name" />
+            <TextField source="rfidTag" label="RFID Tag" />
+            <TextField source="sectionName" label="resources.item.fields.sectionName" />
         </Datagrid>
     </List>
 );
@@ -74,18 +74,9 @@ export const ItemCreate = () => {
     const redirect = useRedirect();
     const refresh = useRefresh();
 
-    const onSuccess = (data: ItemRecordUI) => {
-        notify(`Товар "${data.name}" успішно створено`, { type: 'success' });
-        redirect('/item');
-        refresh();
-    };
-
-    const onError = (error: any) => {
-        notify(`Помилка створення товару: ${error.message || 'Невідома помилка'}`, { type: 'error' });
-    };
 
     return (
-        <Create mutationOptions={{ onSuccess, onError }}>
+        <Create>
             <SimpleForm>
                 <TextInput
                     source="rfidTag"
@@ -95,7 +86,7 @@ export const ItemCreate = () => {
                 />
                 <TextInput
                     source="name"
-                    label="Назва товару"
+                    label="resources.item.fields.name"
                     validate={[required()]}
                     fullWidth
                 />
@@ -108,7 +99,6 @@ export const ItemEdit: React.FC<EditProps> = (props) => {
     return (
         <Edit
             {...props}
-            title="Редагування товару (Спрощена версія)"
             transform={(data: any) => {
                 const { representativeSectionId, ...rest } = data;
                 const payload: any = {
@@ -131,7 +121,7 @@ export const ItemEdit: React.FC<EditProps> = (props) => {
                 />
 
                 <ReferenceInput
-                    label="Секція"
+                    label="section"
                     source="representativeSectionId"
                     reference="section"
                     allowEmpty
@@ -144,14 +134,13 @@ export const ItemEdit: React.FC<EditProps> = (props) => {
     );
 };
 
-
 export const ItemShow = () => (
     <Show>
         <SimpleShowLayout>
             <TextField source="id" label="ID" />
             <TextField source="rfidTag" label="RFID Tag" />
-            <TextField source="name" label="Назва товару" />
-            <TextField source="sectionName" label="Назва секції" />
+            <TextField source="name" label="resources.item.fields.name" />
+            <TextField source="sectionName" label="resources.item.fields.sectionName" />
         </SimpleShowLayout>
     </Show>
 );

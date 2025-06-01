@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import {
     Box, Card, CardContent, LinearProgress, Typography, Grid
 } from '@mui/material';
-import { useNotify } from 'react-admin';
-import {reportService} from "../../../data/services/reportService.ts";
+import { useNotify, useTranslate } from 'react-admin';
+import { reportService } from '../../../data/services/reportService.ts';
 
 type SectionInfo = {
     name: string;
@@ -21,6 +21,7 @@ type ResponseData = {
 const SectionLoadPage = () => {
     const [data, setData] = useState<ResponseData | null>(null);
     const notify = useNotify();
+    const translate = useTranslate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,22 +29,24 @@ const SectionLoadPage = () => {
                 const response = await reportService.getSectionLoad();
                 setData(response);
             } catch (error) {
-                notify('Помилка при завантаженні завантаженості секцій', { type: 'error' });
+                notify(translate('custom.sectionLoad.error'), { type: 'error' });
                 console.error(error);
             }
         };
 
         fetchData();
-    }, [notify]);
+    }, [notify, translate]);
 
     return (
         <Box>
-            <Typography variant="h5" gutterBottom>Завантаження складу</Typography>
+            <Typography variant="h5" gutterBottom>
+                {translate('custom.sectionLoad.title')}
+            </Typography>
 
             {data && (
                 <>
-                    <Typography variant="h6" gutterBottom color={"primary"}>
-                        🏭 Склад: {data.warehouseName} | Секцій: {data.total}
+                    <Typography variant="h6" gutterBottom color="primary">
+                        🏭 {translate('custom.sectionLoad.warehouse')}: {data.warehouseName} | {translate('custom.sectionLoad.sections')}: {data.total}
                     </Typography>
 
                     <Grid container spacing={2}>
@@ -62,7 +65,9 @@ const SectionLoadPage = () => {
                                                 value={percent}
                                                 sx={{ mt: 1 }}
                                             />
-                                            <Typography variant="caption">{percent}% завантаження</Typography>
+                                            <Typography variant="caption">
+                                                {percent}% {translate('custom.sectionLoad.load')}
+                                            </Typography>
                                         </CardContent>
                                     </Card>
                                 </Grid>

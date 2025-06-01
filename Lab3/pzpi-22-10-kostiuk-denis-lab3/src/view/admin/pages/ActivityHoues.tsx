@@ -11,6 +11,7 @@ import {
     useNotify,
     Toolbar,
     SaveButton,
+    useTranslate,
 } from 'react-admin';
 import { useState } from 'react';
 import { reportService } from "../../../data/services/reportService";
@@ -19,6 +20,7 @@ import { type PeakActivityResponse } from "../../../data/services/reportService"
 export const PeakActivityHoursPage = () => {
     const [data, setData] = useState<PeakActivityResponse | null>(null);
     const notify = useNotify();
+    const translate = useTranslate();
 
     const onSubmit = async (values: any) => {
         try {
@@ -29,19 +31,21 @@ export const PeakActivityHoursPage = () => {
             setData(response);
         } catch (error) {
             console.error(error);
-            notify('Помилка при отриманні пікової активності', { type: 'error' });
+            notify(translate('custom.peakActivity.error'), { type: 'error' });
         }
     };
 
     return (
         <Box p={2}>
-            <Typography variant="h5" gutterBottom>Години пікової активності</Typography>
+            <Typography variant="h5" gutterBottom>
+                {translate('custom.peakActivity.title')}
+            </Typography>
 
             <Card sx={{ mb: 3 }}>
                 <CardContent>
-                    <SimpleForm onSubmit={onSubmit} toolbar={<Toolbar><SaveButton label="Пошук" /></Toolbar>}>
-                        <DateTimeInput source="startDate" label="Початкова дата" fullWidth />
-                        <DateTimeInput source="endDate" label="Кінцева дата" fullWidth />
+                    <SimpleForm onSubmit={onSubmit} toolbar={<Toolbar><SaveButton label={translate('custom.peakActivity.search')} /></Toolbar>}>
+                        <DateTimeInput source="startDate" label={translate('custom.peakActivity.start')} fullWidth />
+                        <DateTimeInput source="endDate" label={translate('custom.peakActivity.end')} fullWidth />
                     </SimpleForm>
                 </CardContent>
             </Card>
@@ -50,10 +54,10 @@ export const PeakActivityHoursPage = () => {
                 <Card>
                     <CardContent>
                         <Typography variant="h6">
-                            📍 Склад: {data.warehouse}
+                            📍 {translate('custom.peakActivity.warehouse')}: {data.warehouse}
                         </Typography>
                         <Typography variant="subtitle2" gutterBottom>
-                            Загальна кількість активностей: {data.total}
+                            {translate('custom.peakActivity.total')}: {data.total}
                         </Typography>
 
                         <Grid container spacing={2}>
@@ -64,7 +68,7 @@ export const PeakActivityHoursPage = () => {
                                             <Typography variant="h6">{day.day}</Typography>
                                             {day.peakHours.map((h, j) => (
                                                 <Typography key={j}>
-                                                    Година {h.hour}: {h.activityCount} рухів
+                                                    {translate('custom.peakActivity.hour', { hour: h.hour, count: h.activityCount })}
                                                 </Typography>
                                             ))}
                                         </CardContent>

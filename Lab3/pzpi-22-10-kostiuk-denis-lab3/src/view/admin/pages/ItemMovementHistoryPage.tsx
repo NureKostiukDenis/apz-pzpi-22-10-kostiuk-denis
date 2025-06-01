@@ -3,7 +3,16 @@ import {
     Typography, Grid
 } from '@mui/material';
 import { useState } from 'react';
-import {AutocompleteInput, DateTimeInput, SaveButton, SimpleForm, Toolbar, useGetList, useNotify} from 'react-admin';
+import {
+    AutocompleteInput,
+    DateTimeInput,
+    SaveButton,
+    SimpleForm,
+    Toolbar,
+    useGetList,
+    useNotify,
+    useTranslate,
+} from 'react-admin';
 import { format } from 'date-fns';
 import {
     type ItemMovementHistoryRequest,
@@ -14,6 +23,7 @@ import {
 const ItemMovementHistoryPage = () => {
     const [result, setResult] = useState<ItemMovementHistoryResponse | null>(null);
     const notify = useNotify();
+    const translate = useTranslate();
 
     const { data: items, isLoading, error } = useGetList('item', {
         pagination: { page: 1, perPage: 100 },
@@ -31,37 +41,37 @@ const ItemMovementHistoryPage = () => {
             setResult(response);
         } catch (e) {
             console.error(e);
-            notify('Помилка при отриманні історії переміщень', { type: 'error' });
+            notify(translate('custom.itemMovement.error'), { type: 'error' });
         }
     };
 
     return (
         <Box>
             <Typography variant="h5" gutterBottom>
-                Історія переміщень товару
+                {translate('custom.itemMovement.title')}
             </Typography>
 
-            <Card sx={{ mb: 3}}>
+            <Card sx={{ mb: 3 }}>
                 <CardContent>
-                    <SimpleForm onSubmit={onSubmit} toolbar={<Toolbar><SaveButton label="Показати" /></Toolbar>}>
+                    <SimpleForm onSubmit={onSubmit} toolbar={<Toolbar><SaveButton label={translate('custom.itemMovement.show')} /></Toolbar>}>
                         <AutocompleteInput
                             source="itemRfidTag"
-                            label="Предмет (RFID)"
+                            label={translate('custom.itemMovement.item')}
                             choices={items || []}
                             optionText="name"
                             optionValue="rfidTag"
                             isLoading={isLoading}
                             fullWidth
-                            helperText={error ? 'Помилка при завантаженні предметів' : undefined}
+                            helperText={error ? translate('custom.itemMovement.itemLoadError') : undefined}
                         />
                         <DateTimeInput
                             source="startDate"
-                            label="Початкова дата"
+                            label={translate('custom.itemMovement.startDate')}
                             fullWidth
                         />
                         <DateTimeInput
                             source="endDate"
-                            label="Кінцева дата"
+                            label={translate('custom.itemMovement.endDate')}
                             fullWidth
                         />
                     </SimpleForm>
@@ -75,7 +85,7 @@ const ItemMovementHistoryPage = () => {
                             📦 {result.name} ({result.itemRfidTag})
                         </Typography>
                         <Typography variant="subtitle2" gutterBottom>
-                            Переміщень: {result.total}
+                            {translate('custom.itemMovement.total')}: {result.total}
                         </Typography>
 
                         <Grid container spacing={2}>
@@ -84,13 +94,13 @@ const ItemMovementHistoryPage = () => {
                                     <Card variant="outlined">
                                         <CardContent>
                                             <Typography>
-                                                <strong>Дата:</strong> {format(new Date(m.date), 'yyyy-MM-dd HH:mm')}
+                                                <strong>{translate('custom.itemMovement.date')}:</strong> {format(new Date(m.date), 'yyyy-MM-dd HH:mm')}
                                             </Typography>
                                             <Typography>
-                                                <strong>З:</strong> {m.from.sectionTitle}
+                                                <strong>{translate('custom.itemMovement.from')}:</strong> {m.from.sectionTitle}
                                             </Typography>
                                             <Typography>
-                                                <strong>До:</strong> {m.to.sectionTitle}
+                                                <strong>{translate('custom.itemMovement.to')}:</strong> {m.to.sectionTitle}
                                             </Typography>
                                         </CardContent>
                                     </Card>

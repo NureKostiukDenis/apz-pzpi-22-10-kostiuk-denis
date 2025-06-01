@@ -87,18 +87,25 @@ export const httpClient = async (url: string, options: fetchUtils.Options = {}) 
     return fetchUtils.fetchJson(url, options);
 };
 
-export const getAdminHeaders = () => {
+export const getAdminHeaders = async () => {
+    const token = authStorageService.getAccessToken();
+    let apikey = authStorageService.getApiKey();
 
-    const token = authStorageService.getAccessToken()
-    const apikey = authStorageService.getApiKey()
+    if (!apikey) {
+        apikey = await apiService.getApiKey();
+    }
 
     const headers = new Headers();
+    headers.set('Content-Type', 'application/json');
 
-    if (token && apikey) {
-        headers.set('Authorization', 'Bearer '+ token);
+    if (token) {
+        headers.set('Authorization', 'Bearer ' + token);
+    }
+
+    if (apikey) {
         headers.set('ApiKey', apikey);
-        headers.set('Content-Type', 'application/json');
     }
 
     return headers;
-}
+};
+
